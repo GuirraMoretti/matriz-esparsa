@@ -5,8 +5,8 @@
 using namespace std;
    
     //construtor 
-SparseMatrix::SparseMatrix(int l, int c){
-    this->lines = l;
+SparseMatrix::SparseMatrix(unsigned l, unsigned c){
+    this->linhas = l;
     this->colunas = c;
     this->m_head = new Node(nullptr, nullptr, 0, 0, 0);
     Node *ptr = m_head;
@@ -31,25 +31,31 @@ SparseMatrix::SparseMatrix(int l, int c){
     }
 }
 
-    //destrutor
-SparseMatrix::~SparseMatrix();
+    //destrutor TO-DO
+SparseMatrix::~SparseMatrix(){
 
-    //inserir ou substituir elementos na matrix
-void SparseMatrix::insert(int i, int j, double value){
+}
 
-     //verifica se a coordenada existe dentro da matrix
-     if(i > linhas || i < 0 || j > colunas || j < 0){
-        throw range_error("index out of range");
-    }
+//Funcao serve para ver se a coordenada passada esta contida na matriz
+bool SparseMatrix::verifyCoord(unsigned i, unsigned j){
+    if(i > linhas || i < 0 || j > colunas || j < 0){
+         throw range_error("index out of range");
+    }else return true;
+}
+
+    //inserir ou substituir elementos na matrix TO-DO
+void SparseMatrix::insert(unsigned i, unsigned j, double value){
+    
+    //Verifica se as coordenadas passadas estao dentro da matriz criada
+    SparseMatrix::verifyCoord( i , j);
+
 }
 
     //retornar o value do elemento passado
-double SparseMatrix::get(int i, int j){
+double SparseMatrix::get(unsigned i, unsigned j){
     
-    //verifica se a coordenada existe dentro da matrix
-    if(i > linhas || i < 0 || j > colunas || j < 0){
-        throw range_error("index out of range");
-    }
+    //Verifica se as coordenadas passadas estao dentro da matriz criada
+    SparseMatrix::verifyCoord( i , j); //se nao existir aquela coodenada na matriz, a funcao lanca um erro de range_error e mata o processo.
 
     Node* aux = m_head;
 
@@ -69,4 +75,6 @@ double SparseMatrix::get(int i, int j){
     return aux->value;
 }
     //printa toda a matrix
-void SparseMatrix::print();
+void SparseMatrix::print(){
+    
+}

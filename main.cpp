@@ -15,7 +15,7 @@ SparseMatrix* readSparseMatrix(string archive){
     //procura o arquivo
     ifstream file(archive);
 
-    int linhas, colunas;
+    unsigned linhas, colunas;
 
     //lê a primeira linha do arquivo 
     file >> linhas >> colunas;
@@ -23,14 +23,13 @@ SparseMatrix* readSparseMatrix(string archive){
     //cria uma matriz
     SparseMatrix* matrix = new SparseMatrix(linhas, colunas);
 
-    int linha, coluna;
+    unsigned linha, coluna;
     double value;
 
     //lê todas as linhas do arquivo até que não tenham mais linhas
     while(file >> linha >> coluna >> value){
         matrix->insert(linha, coluna, value);
     }
-
     return matrix;
 }
 
