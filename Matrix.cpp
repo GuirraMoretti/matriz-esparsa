@@ -32,11 +32,44 @@ SparseMatrix::SparseMatrix(unsigned l, unsigned c){
 }
 
     //destrutor TO-DO
-/*
-SparseMatrix::~SparseMatrix(){
+SparseMatrix::~SparseMatrix() {
+  // cria um ponteiro para a linha do nó
+  Node* ActualLine = m_head->bottom;
 
+  // apaga as linhas enquanto forem diferentes do nó cabeça
+  while (ActualLine != m_head) {
+    // cria um ponteiro para a coluna da linha atual
+    Node* ActualColumn = ActualLine->right;
+
+    // apaga as colunas da linha atual
+    while (ActualColumn != m_head) {
+      Node* nextcolumn = ActualColumn->right;
+
+      // deleta as colunas
+      delete ActualColumn;
+
+      ActualColumn = nextcolumn;
+    }
+
+    Node* nextline = ActualLine->bottom;
+    delete ActualLine;
+    ActualLine = nextline;
+  }
+
+  Node* ColumnRest = m_head->right;
+
+  while (ColumnRest != m_head) {
+    Node* next = ColumnRest->right;
+
+    // deleta as colunas que restam a direita do nó cabeça
+    delete ColumnRest;
+
+    ColumnRest = next;
+  }
+
+  delete m_head;
 }
-*/
+
 
 //Funcao serve para ver se a coordenada passada esta contida na matriz
 bool SparseMatrix::verifyCoord(unsigned i, unsigned j){
