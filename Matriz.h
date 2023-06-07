@@ -14,7 +14,7 @@ class SparseMatrix{
     SparseMatrix(unsigned l, unsigned c);
 
     //destrutor
-    //~SparseMatrix();
+    ~SparseMatrix();
 
     //inserir ou substituir elementos na matrix
     void insert(unsigned i, unsigned j, double value);

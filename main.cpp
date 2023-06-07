@@ -34,10 +34,10 @@ SparseMatrix* readSparseMatrix(string archive){
 }
 
 //faz a soma dos elementos de duas matrizes
-SparseMatrix* sum(SparseMatrix* M1, SparseMatrix* M2);
+//SparseMatrix* sum(SparseMatrix* M1, SparseMatrix* M2);
 
 //faz a multiplicação dos elementos de duas matrizes
-SparseMatrix* multiply(SparseMatrix* M1, SparseMatrix* M2);
+//SparseMatrix* multiply(SparseMatrix* M1, SparseMatrix* M2);
 
 
 int main(){

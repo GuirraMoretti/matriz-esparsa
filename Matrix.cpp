@@ -86,7 +86,6 @@ void SparseMatrix::insert(unsigned i, unsigned j, double value) {
     Node* currentLine = m_head;
     Node* currentColumn = m_head;
 
-    //Procura de cabeçalho
     // Procura a linha passada como referência
     while (currentLine->line != i) {
         currentLine = currentLine->bottom;
@@ -97,14 +96,34 @@ void SparseMatrix::insert(unsigned i, unsigned j, double value) {
         currentColumn = currentColumn->right;
     }
 
-    //Procura na matriz
-    while(currentColumn->bottom->line < i && currentColumn->bottom->line != 0){
-        currentColumn = currentColumn->bottom;        
+    // Percorre a coluna até encontrar a posição correta para inserir o nó
+    while (currentColumn->bottom != m_head && currentColumn->bottom->line < i) {
+        currentColumn = currentColumn->bottom;
     }
-    
-    
 
-
+    // Percorre a linha até encontrar a posição correta para inserir o nó
+    while (currentLine->right != m_head && currentLine->right->column < j) {
+        currentLine = currentLine->right;
+    }
+if (currentColumn->bottom->line == i && currentLine->right->column == j) {
+        // Se já existe um nó com as mesmas coordenadas
+        if (value == 0) {
+            // Se o valor a ser inserido é zero, exclui o nó existente e realoca os ponteiros
+            Node* nodeToDelete = currentColumn->bottom;
+            currentColumn->bottom = currentColumn->bottom->bottom;
+            currentLine->right = currentLine->right->right;
+            delete nodeToDelete;
+        } else {
+            // Se o valor a ser inserido é diferente de zero, atualiza o valor do nó existente
+            currentColumn->bottom->value = value;
+        }
+    } else {
+        // Caso contrário, cria um novo nó e insere na posição correta se o valor for diferente de zero
+        if (value != 0) {
+            currentColumn->bottom = new Node(currentLine->right, currentColumn->bottom, i, j, value);
+            currentLine->right = currentColumn->bottom;
+        }
+    }
 }
 
     //retornar o value do elemento passado
