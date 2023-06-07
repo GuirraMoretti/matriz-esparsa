@@ -31,7 +31,7 @@ SparseMatrix::SparseMatrix(unsigned l, unsigned c){
     }
 }
 
-    //destrutor TO-DO
+    //destrutor
 SparseMatrix::~SparseMatrix() {
   // cria um ponteiro para a linha do nó
   Node* ActualLine = m_head->bottom;
@@ -83,21 +83,28 @@ void SparseMatrix::insert(unsigned i, unsigned j, double value) {
     // Verifica se as coordenadas passadas estão dentro da matriz criada
     verifyCoord(i, j);
 
-    Node* current = m_head;
+    Node* currentLine = m_head;
+    Node* currentColumn = m_head;
 
+    //Procura de cabeçalho
     // Procura a linha passada como referência
-    while (current->line != i) {
-        current = current->bottom;
+    while (currentLine->line != i) {
+        currentLine = currentLine->bottom;
     }
 
     // Procura a coluna passada como referência
-    while (current->column != j && current->right != m_head) {
-        current = current->right;
+    while (currentColumn->column != j) {
+        currentColumn = currentColumn->right;
     }
 
-    if (current->column == j && current->line == i) {
-        current->value = value;
+    //Procura na matriz
+    while(currentColumn->bottom->line < i && currentColumn->bottom->line != 0){
+        currentColumn = currentColumn->bottom;        
     }
+    
+    
+
+
 }
 
     //retornar o value do elemento passado
