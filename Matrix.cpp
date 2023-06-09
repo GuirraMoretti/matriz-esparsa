@@ -102,15 +102,32 @@ void SparseMatrix::insert(unsigned i, unsigned j, double value) {
     {
         currentColumn->bottom = new Node(currentLine,currentColumn,i,j,value);
         currentLine->right = currentColumn->bottom;
+        return;
     }
 
     //Quando coluna for vazia mas linha nao eh
-    //Quando linha for vazia mas coluna nao eh
-    //Quando as duas tiverem algo
-        //! Node existe depois da coordenada inserida
-        //! Node existe antes da coordenada inserida
+    //! Node existe depois da coordenada inserida
+    //! Node existe antes da coordenada inserida
+    while (currentLine->right->column < j && currentLine->right->column != 0)
+    {
+        currentLine = currentLine->right;
+    }
+    while (currentColumn->bottom->line < i && currentColumn->bottom->line != 0)
+    {
+        currentColumn = currentColumn->bottom;
+    }
+    
+    if (currentColumn->bottom->line == i  && currentLine->right->column == j)
+    {
+        currentColumn->bottom->value = value;
+    }
 
-
+    Node *aux = currentColumn;
+    aux->right = currentLine->right;
+    aux->bottom = currentColumn->bottom;
+    currentLine->right = new Node(aux->right,aux->bottom,i,j,value);
+    currentColumn->bottom = currentLine->right;
+    delete aux;
 }
 
     //retornar o value do elemento passado
