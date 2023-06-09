@@ -83,47 +83,34 @@ void SparseMatrix::insert(unsigned i, unsigned j, double value) {
     // Verifica se as coordenadas passadas estão dentro da matriz criada
     verifyCoord(i, j);
 
-    Node* currentLine = m_head;
-    Node* currentColumn = m_head;
+    Node * currentColumn = m_head->right;
+    Node * currentLine = m_head->bottom;
 
-    // Procura a linha passada como referência
-    while (currentLine->line != i) {
+    //Chegar no cabecalho da linha
+    while (currentLine->line != i)
+    {
         currentLine = currentLine->bottom;
     }
-
-    // Procura a coluna passada como referência
-    while (currentColumn->column != j) {
+    //Chegar no cabecalho da coluna
+    while (currentColumn->column !=j)
+    {
         currentColumn = currentColumn->right;
     }
 
-    // Percorre a coluna até encontrar a posição correta para inserir o nó
-    while (currentColumn->bottom != m_head && currentColumn->bottom->line < i) {
-        currentColumn = currentColumn->bottom;
+    //Caso matriz vazia
+    if (currentLine->right == currentLine && currentColumn->bottom == currentColumn)
+    {
+        currentColumn->bottom = new Node(currentLine,currentColumn,i,j,value);
+        currentLine->right = currentColumn->bottom;
     }
 
-    // Percorre a linha até encontrar a posição correta para inserir o nó
-    while (currentLine->right != m_head && currentLine->right->column < j) {
-        currentLine = currentLine->right;
-    }
-if (currentColumn->bottom->line == i && currentLine->right->column == j) {
-        // Se já existe um nó com as mesmas coordenadas
-        if (value == 0) {
-            // Se o valor a ser inserido é zero, exclui o nó existente e realoca os ponteiros
-            Node* nodeToDelete = currentColumn->bottom;
-            currentColumn->bottom = currentColumn->bottom->bottom;
-            currentLine->right = currentLine->right->right;
-            delete nodeToDelete;
-        } else {
-            // Se o valor a ser inserido é diferente de zero, atualiza o valor do nó existente
-            currentColumn->bottom->value = value;
-        }
-    } else {
-        // Caso contrário, cria um novo nó e insere na posição correta se o valor for diferente de zero
-        if (value != 0) {
-            currentColumn->bottom = new Node(currentLine->right, currentColumn->bottom, i, j, value);
-            currentLine->right = currentColumn->bottom;
-        }
-    }
+    //Quando coluna for vazia mas linha nao eh
+    //Quando linha for vazia mas coluna nao eh
+    //Quando as duas tiverem algo
+        //! Node existe depois da coordenada inserida
+        //! Node existe antes da coordenada inserida
+
+
 }
 
     //retornar o value do elemento passado

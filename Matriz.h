@@ -16,6 +16,8 @@ class SparseMatrix{
     //destrutor
     ~SparseMatrix();
 
+    bool verifyCoord(unsigned i, unsigned j);
+
     //inserir ou substituir elementos na matrix
     void insert(unsigned i, unsigned j, double value);
 
@@ -24,8 +26,6 @@ class SparseMatrix{
 
     //printa toda a matrix
     void print();
-
-    bool verifyCoord(unsigned i, unsigned j);
 };
 
 #endif

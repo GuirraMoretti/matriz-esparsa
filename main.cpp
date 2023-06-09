@@ -41,5 +41,9 @@ SparseMatrix* readSparseMatrix(string archive){
 
 
 int main(){
+    SparseMatrix* teste = new SparseMatrix(3,3);
+    teste->print();
+    teste->insert(2,2,30);
+    teste->print();
     return 0;
 }
