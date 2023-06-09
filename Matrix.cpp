@@ -96,7 +96,6 @@ void SparseMatrix::insert(unsigned i, unsigned j, double value) {
     {
         currentColumn = currentColumn->right;
     }
-
     //Caso matriz vazia
     if (currentLine->right == currentLine && currentColumn->bottom == currentColumn)
     {
@@ -104,10 +103,6 @@ void SparseMatrix::insert(unsigned i, unsigned j, double value) {
         currentLine->right = currentColumn->bottom;
         return;
     }
-
-    //Quando coluna for vazia mas linha nao eh
-    //! Node existe depois da coordenada inserida
-    //! Node existe antes da coordenada inserida
     while (currentLine->right->column < j && currentLine->right->column != 0)
     {
         currentLine = currentLine->right;
@@ -116,12 +111,10 @@ void SparseMatrix::insert(unsigned i, unsigned j, double value) {
     {
         currentColumn = currentColumn->bottom;
     }
-    
     if (currentColumn->bottom->line == i  && currentLine->right->column == j)
     {
         currentColumn->bottom->value = value;
     }
-
     Node *aux = currentColumn;
     aux->right = currentLine->right;
     aux->bottom = currentColumn->bottom;

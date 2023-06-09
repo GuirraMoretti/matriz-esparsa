@@ -57,5 +57,7 @@ int main(){
     teste->print();
     cout << endl;
     teste->insert(5,5,30);
+    teste->~SparseMatrix();
+    teste->print();
     return 0;
 }
