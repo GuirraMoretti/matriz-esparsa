@@ -5,24 +5,24 @@
 class SparseMatrix{
     private:
 
-    unsigned linhas;
-    unsigned colunas;
+    short unsigned linhas;
+    short unsigned colunas;
     Node *m_head;
 
     public:
     //construtor
-    SparseMatrix(unsigned l, unsigned c);
+    SparseMatrix(short unsigned l, short unsigned c);
 
     //destrutor
     ~SparseMatrix();
 
-    bool verifyCoord(unsigned i, unsigned j);
+    bool verifyCoord(short unsigned i, short unsigned j);
 
     //inserir ou substituir elementos na matrix
-    void insert(unsigned i, unsigned j, double value);
+    void insert(short unsigned i, short unsigned j, double value);
 
     //retornar o valor do elemento passado
-    double get(unsigned i, unsigned j);
+    double get(short unsigned i, short unsigned j);
 
     //printa toda a matrix
     void print();

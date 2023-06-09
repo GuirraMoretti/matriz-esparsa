@@ -44,20 +44,24 @@ int main(){
     SparseMatrix* teste = new SparseMatrix(3,3);
     teste->print();
     cout << endl;
-    teste->insert(2,2,30);
+    teste->insert(1,1,300);
     teste->print();
-    cout << endl;
+    cout << "-----------------------" << endl;
+    teste->insert(2,2,300);
+    teste->print();
+    cout << "-----------------------" << endl;
+    teste->insert(3,3,300);
+    teste->print();
+    cout << "-----------------------" << endl;
+    teste->insert(1,2,300);
+    teste->print();
+    cout << "-----------------------" << endl;
     teste->insert(1,3,300);
     teste->print();
-    cout << endl;
-    teste->insert(2,3,200);
+    cout << "-----------------------" << endl;
+    teste->insert(2,3,300);
     teste->print();
-    cout << endl;
-    teste->insert(2,2,32);
-    teste->print();
-    cout << endl;
-    teste->insert(5,5,30);
-    teste->~SparseMatrix();
-    teste->print();
+    cout << "-----------------------" << endl;
+    
     return 0;
 }

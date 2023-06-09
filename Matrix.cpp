@@ -5,25 +5,24 @@
 using namespace std;
    
     //construtor 
-SparseMatrix::SparseMatrix(unsigned l, unsigned c){
-    this->linhas = l;
-    this->colunas = c;
-    this->m_head = new Node(nullptr, nullptr, 0, 0, 0);
-    Node *ptr = m_head;
+SparseMatrix::SparseMatrix(short unsigned l, short unsigned c)
+    : linhas(l), colunas(c), m_head(new Node(nullptr, nullptr, 0, 0, 0))
+{
+    Node* ptr = m_head;
 
-    //laço para criar lines
-    for(int i = 1; i <= l; i++){
+    // Laço para criar linhas
+    for (int i = 1; i <= l; ++i) {
         ptr->bottom = new Node(nullptr, nullptr, i, 0, 0);
         ptr = ptr->bottom;
         ptr->right = ptr;
         ptr->bottom = m_head;
     }
 
-    //reseta o ponteiro auxiliar
+    // Reseta o ponteiro auxiliar
     ptr = m_head;
 
-    //laço para criar colunas
-    for(int j = 1; j <= c; j++){
+    // Laço para criar colunas
+    for (int j = 1; j <= c; ++j) {
         ptr->right = new Node(nullptr, nullptr, 0, j, 0);
         ptr = ptr->right;
         ptr->bottom = ptr;
@@ -72,14 +71,14 @@ SparseMatrix::~SparseMatrix() {
 
 
 //Funcao serve para ver se a coordenada passada esta contida na matriz
-bool SparseMatrix::verifyCoord(unsigned i, unsigned j){
+bool SparseMatrix::verifyCoord(short unsigned i, short unsigned j){
     if(i > linhas || i < 0 || j > colunas || j < 0){
          throw range_error("index out of range");
     }else return true;
 }
 
     //inserir ou substituir elementos na matrix TO-DO
-void SparseMatrix::insert(unsigned i, unsigned j, double value) {
+void SparseMatrix::insert(short unsigned i, short unsigned j, double value) {
     // Verifica se as coordenadas passadas estão dentro da matriz criada
     verifyCoord(i, j);
 
@@ -96,6 +95,14 @@ void SparseMatrix::insert(unsigned i, unsigned j, double value) {
     {
         currentColumn = currentColumn->right;
     }
+    // CHEGUEI NO CABECALHO
+/*
+    Node *header = nullptr;
+    header->bottom = currentColumn;
+    header->right = currentLine;
+*/
+
+
     //Caso matriz vazia
     if (currentLine->right == currentLine && currentColumn->bottom == currentColumn)
     {
@@ -103,6 +110,8 @@ void SparseMatrix::insert(unsigned i, unsigned j, double value) {
         currentLine->right = currentColumn->bottom;
         return;
     }
+
+    //Sai do cabeçalho e procura o node anterior
     while (currentLine->right->column < j && currentLine->right->column != 0)
     {
         currentLine = currentLine->right;
@@ -111,11 +120,15 @@ void SparseMatrix::insert(unsigned i, unsigned j, double value) {
     {
         currentColumn = currentColumn->bottom;
     }
+
+
     if (currentColumn->bottom->line == i  && currentLine->right->column == j)
     {
         currentColumn->bottom->value = value;
+        return;
     }
-    Node *aux = currentColumn;
+
+    Node* aux = currentColumn;
     aux->right = currentLine->right;
     aux->bottom = currentColumn->bottom;
     currentLine->right = new Node(aux->right,aux->bottom,i,j,value);
@@ -124,7 +137,7 @@ void SparseMatrix::insert(unsigned i, unsigned j, double value) {
 }
 
     //retornar o value do elemento passado
-double SparseMatrix::get(unsigned i, unsigned j){
+double SparseMatrix::get(short unsigned i, short unsigned j){
     
     //Verifica se as coordenadas passadas estao dentro da matriz criada
     SparseMatrix::verifyCoord( i , j); //se nao existir aquela coodenada na matriz, a funcao lanca um erro de range_error e mata o processo.
@@ -147,8 +160,8 @@ double SparseMatrix::get(unsigned i, unsigned j){
 }
     //printa toda a matrix
 void SparseMatrix::print() {
-    for (unsigned i = 1; i <= linhas; i++) {
-        for (unsigned j = 1; j <= colunas; j++) {
+    for (short unsigned i = 1; i <= linhas; i++) {
+        for (short unsigned j = 1; j <= colunas; j++) {
             double value = get(i, j);
             cout << value << " ";
         }
