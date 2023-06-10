@@ -10,8 +10,8 @@ struct Node{
 
 
     //constructor of class node
-    Node (Node *r, Node *b, unsigned l, unsigned c, double v){
-        this->right = r;
+    Node (Node *d, Node *b, unsigned l, unsigned c, double v){
+        this->right = d;
         this->bottom = b;
         this->line = l;
         this->column = c;

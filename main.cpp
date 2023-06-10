@@ -41,27 +41,7 @@ SparseMatrix* readSparseMatrix(string archive){
 
 
 int main(){
-    SparseMatrix* teste = new SparseMatrix(3,3);
+    SparseMatrix* teste = readSparseMatrix("m1.txt");
     teste->print();
-    cout << endl;
-    teste->insert(1,1,300);
-    teste->print();
-    cout << "-----------------------" << endl;
-    teste->insert(2,2,300);
-    teste->print();
-    cout << "-----------------------" << endl;
-    teste->insert(3,3,300);
-    teste->print();
-    cout << "-----------------------" << endl;
-    teste->insert(1,2,300);
-    teste->print();
-    cout << "-----------------------" << endl;
-    teste->insert(1,3,300);
-    teste->print();
-    cout << "-----------------------" << endl;
-    teste->insert(2,3,300);
-    teste->print();
-    cout << "-----------------------" << endl;
-    
     return 0;
 }

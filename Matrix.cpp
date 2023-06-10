@@ -91,25 +91,36 @@ void SparseMatrix::insert(short unsigned i, short unsigned j, double value) {
         currentLine = currentLine->bottom;
     }
     //Chegar no cabecalho da coluna
-    while (currentColumn->column !=j)
+    while (currentColumn->column != j)
     {
         currentColumn = currentColumn->right;
     }
-    // CHEGUEI NO CABECALHO
-/*
-    Node *header = nullptr;
-    header->bottom = currentColumn;
-    header->right = currentLine;
-*/
+
+        
+    // Node* headerColumn = new Node(currentColumn->right,currentColumn->bottom,0,currentColumn->column,0);
+    // Node* headerLine = new Node(currentLine->right,currentLine->bottom,currentLine->line,0,0);
+    Node* headerLine = currentLine;
+    Node* headerColumn = currentColumn;
+
+
+        cout << "(" << headerColumn->line << "(" << endl;
+        cout << "(" << headerColumn->column << "(" << endl;
+        cout << "(" << headerLine->line << "(" << endl;
+        cout << "(" << headerLine->column << "(" << endl;
 
 
     //Caso matriz vazia
-    if (currentLine->right == currentLine && currentColumn->bottom == currentColumn)
+    if (currentLine->right == currentLine && currentColumn->bottom == currentColumn && value!=0)
     {
-        currentColumn->bottom = new Node(currentLine,currentColumn,i,j,value);
+        currentColumn->bottom = new Node(headerLine,headerColumn,i,j,value);
         currentLine->right = currentColumn->bottom;
+        cout << "(" << currentColumn->bottom->bottom->line << "(" << endl;
+        cout << "(" <<currentColumn->bottom->bottom->column << "(" << endl;
+        cout << "(" <<currentColumn->bottom->right->column << "(" << endl;
+        cout << "(" <<currentColumn->bottom->right->line << "(" << endl;
         return;
     }
+    
 
     //Sai do cabeçalho e procura o node anterior
     while (currentLine->right->column < j && currentLine->right->column != 0)
@@ -121,19 +132,41 @@ void SparseMatrix::insert(short unsigned i, short unsigned j, double value) {
         currentColumn = currentColumn->bottom;
     }
 
-
+    //Atribui a um nó existente
     if (currentColumn->bottom->line == i  && currentLine->right->column == j)
     {
         currentColumn->bottom->value = value;
         return;
     }
 
-    Node* aux = currentColumn;
-    aux->right = currentLine->right;
-    aux->bottom = currentColumn->bottom;
-    currentLine->right = new Node(aux->right,aux->bottom,i,j,value);
-    currentColumn->bottom = currentLine->right;
-    delete aux;
+
+
+    //!Adicionar Nó
+    if (currentLine->right == headerLine && currentColumn->bottom == headerColumn)
+    {
+        currentLine->right = new Node(headerLine,headerColumn,i,j,value);
+        headerColumn->bottom = currentLine->right;
+    }
+    else if (currentLine->right != headerLine && currentColumn->bottom == headerColumn)
+    {
+        Node *aux = currentLine->right;
+        currentLine->right = new Node(aux,headerColumn->bottom,i,j,value);
+        headerColumn->bottom = currentLine->right;   
+    }
+   else if (currentLine->right == headerLine && currentColumn->bottom != headerColumn)
+    {
+      Node *aux = currentColumn->bottom;
+      currentColumn->bottom = new Node(headerLine->right,aux,i,j,value);
+      headerLine->right = currentColumn->bottom;
+    }
+    else if (currentLine->right != headerLine && currentColumn->bottom != headerColumn)
+    {
+       Node *auxR = currentLine->right;
+       Node *auxB = currentColumn->bottom;
+       currentColumn->bottom = new Node(auxR,auxB,i,j,value);
+       currentLine->right = currentColumn->bottom;       
+    }
+   
 }
 
     //retornar o value do elemento passado
