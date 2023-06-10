@@ -74,7 +74,7 @@ SparseMatrix::~SparseMatrix() {
 //Funcao serve para ver se a coordenada passada esta contida na matriz
 bool SparseMatrix::verifyCoord(short unsigned i, short unsigned j){
     if(i > linhas || i < 0 || j > colunas || j < 0){
-         throw range_error("index out of range");
+         throw range_error("coordenada fora da matriz");
     }else return true;
 }
 
