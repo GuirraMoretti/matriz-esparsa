@@ -1,6 +1,7 @@
 #include "Matriz.h"
 #include <iostream>
 #include <stdexcept>
+#include <iomanip>
 
 using namespace std;
    
@@ -152,11 +153,26 @@ double SparseMatrix::get(short unsigned i, short unsigned j){
 }
     //printa toda a matrix
 void SparseMatrix::print() {
+    // Determinar a largura máxima dos valores na matriz
+    int maxDigits = 0;
     for (short unsigned i = 1; i <= linhas; i++) {
         for (short unsigned j = 1; j <= colunas; j++) {
             double value = get(i, j);
-            cout << value << " ";
+            std::stringstream ss;
+            ss << value;
+            int numDigits = ss.str().length();
+            if (numDigits > maxDigits) {
+                maxDigits = numDigits;
+            }
         }
-        cout << endl;
+    }
+
+    // Imprimir a matriz com valores alinhados
+    for (short unsigned i = 1; i <= linhas; i++) {
+        for (short unsigned j = 1; j <= colunas; j++) {
+            double value = get(i, j);
+            std::cout << std::setw(maxDigits) << std::setfill(' ') << std::left << value << " ";
+        }
+        std::cout << std::endl;
     }
 }
