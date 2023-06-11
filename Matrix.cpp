@@ -1,9 +1,14 @@
+/**************************************************************************
+ Guilherme Lima Moretti 536179
+ Vitória ashiley Lopes Ferreira 535667
+**************************************************************************/
+
 #include <iomanip>
 #include <iostream>
 #include <stdexcept>
 #include <math.h>
 
-#include "Matriz.h"
+#include "Matrix.h"
 
 
 
@@ -131,7 +136,6 @@ void SparseMatrix::insert(short unsigned i, short unsigned j, double value)
         currentLine->right = currentColumn->bottom;
         return;
     }
-
     // Sai do cabeçalho e procura o node anterior
     while (currentLine->right->column < j && currentLine->right->column != 0)
     {

@@ -8,7 +8,7 @@
 #include <iostream>
 #include <vector>
 
-#include "Matriz.h"
+#include "Matrix.h"
 
 #ifdef _WIN32
 const std::string clearCommand = "cls";
@@ -62,7 +62,6 @@ SparseMatrix* sum(SparseMatrix* M1, SparseMatrix* M2) {
     return result;
 }
 
-
  //faz a multiplicação dos elementos de duas matrizes
   SparseMatrix * multiply(SparseMatrix* M1, SparseMatrix* M2){
 
@@ -93,9 +92,6 @@ SparseMatrix* sum(SparseMatrix* M1, SparseMatrix* M2) {
 SparseMatrix *createMatrix() {
   system(clearCommand.c_str());
   int l, c;
-  cout << "/-------------------------------------------------------------------"
-          "----------------------------------\\"
-       << endl;
   cout << "Digite a quantidade de linhas e colunas que deseja criar a matriz:"
        << endl;
   cout << "Linhas: ";
@@ -125,7 +121,6 @@ SparseMatrix *createMatrix(string name) {
   SparseMatrix *matrix = readSparseMatrix(filePath.string());
   return matrix;
 }
-
 void showAllMatrizes() {
   system(clearCommand.c_str());
   if (matrizes.empty()) {
@@ -172,7 +167,8 @@ void menuMatrix(SparseMatrix *matrix) {
              << endl;
         cout << "> ";
         cin >> l >> c;
-        cout << "Valor: < " << matrix->get(l, c) << fixed << setprecision(4)
+        system(clearCommand.c_str());
+        cout << "Valor(" << l << "," << c << "): < " << matrix->get(l, c) << fixed << setprecision(4)
              << " >" << endl;
         break;
       case 'm':
@@ -188,7 +184,14 @@ void menuMatrix(SparseMatrix *matrix) {
         cin >> value;
         matrix->insert(l, c, value);
         if (matrix->get(l, c) == value) {
+          system(clearCommand.c_str());
+          cout << "/-------------------------------------------------------------------"
+          "----------------------------------\\"
+       << endl;
           cout << "Valor inserido com sucesso!" << endl;
+          cout << "\\-------------------------------------------------------------------"
+          "----------------------------------/"
+       << endl;
         } else
           cerr << "Erro desconhecido";
         break;
@@ -210,8 +213,7 @@ SparseMatrix *menuPrincipal() {
   string name;
   
   while(true) {
-
-    cout << "\t\t\t\tMenu Principal" << endl;
+    cout << "\t\t\t\t< Menu Principal >" << endl;
     cout << "Escolha uma opcao:" << endl;
     cout << "(c) criar matriz vazia" << endl;
     cout << "(a) criar matriz por meio do arquivo" << endl;
@@ -236,56 +238,67 @@ SparseMatrix *menuPrincipal() {
       
         // Criar por meio de arquivo
       case 'a':
+        system(clearCommand.c_str());
         cout << "/-----------------------------------------------------------------------------------------------------\\" << endl;
-        cout << "Digite o nome do arquivo .txt que deseja adicionar: ";
+        cout << "Digite o nome do arquivo .txt que deseja adicionar: " << endl;
+        cout << "> ";
         cin >> name;
         matrizes.push_back(createMatrix(name));
-        cout << matrizes.size();
+        system(clearCommand.c_str());
+        cout << "/-------------------------------------------------------------------"
+          "----------------------------------\\"
+       << endl;
+      cout << "Matriz Adicionada com sucesso" << endl;
+      cout << "\\------------------------------------------------------------------"
+            "-----------------------------------/" << endl;
         return matrizes.back();
         break;
 
     
       case 'l':
         showAllMatrizes();
-        // menuPrincipal();
         break;
 
 
       case 'e':
-        cout << "Digite a posicao da matriz que deseja modificar:";
-        cout << "> " << endl;
+        system(clearCommand.c_str());
+        cout << "Digite a matriz que deseja modificar:" << endl;
+        cout << "> ";
         cin >> m1;
+        system(clearCommand.c_str());
         menuMatrix(matrizes[m1-1]);
         break;
 
       case 'm':
-        cout << "Digite a posicao da primeira matriz que deseja multiplicar:";
-        cout << "> " << endl;
+        system(clearCommand.c_str());
+        cout << "Digite a posicao da primeira matriz que deseja multiplicar:" << endl;
+        cout << "> ";
         cin >> m1;
         cout << "Digite a posicao da segunda matriz que deseja multiplicar:";
         cout << "> " << endl;
         cin >> m2;
+        system(clearCommand.c_str());
         matrizResultante = multiply(matrizes[m1 - 1], matrizes[m2 - 1]);
+        cout << "Resultado da multiplicacao das matrizes: " << endl;
         matrizResultante->print();
-        // menuPrincipal();
         break;
       case 's':
-        cout << "Digite a posicao da primeira matriz que deseja somar:";
-        cout << "> " << endl;
+        system(clearCommand.c_str());
+        cout << "Digite a posicao da primeira matriz que deseja somar:"<< endl;
+        cout << "> ";
         cin >> m1;
         cout << "Digite a posicao da segunda matriz que deseja somar:";
         cout << "> " << endl;
         cin >> m2;
+        system(clearCommand.c_str());
         matrizResultante = sum(matrizes[m1 - 1], matrizes[m2 - 1]);
+        cout << "Resultado da soma das matrizes: " << endl;
         matrizResultante->print();
-        // menuPrincipal();
         break;
       case 'q':
         for(auto x: matrizes) delete x;
         exit(0);
         break;
-
-
       default:
         system(clearCommand.c_str());
         cout << "Opcao invalida" << endl;

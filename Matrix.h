@@ -1,3 +1,8 @@
+/**************************************************************************
+ Guilherme Lima Moretti 536179
+ Vitória ashiley Lopes Ferreira 535667
+**************************************************************************/
+
 #ifndef Matriz_h
 #define Matriz_h
 #include "Node.h"
@@ -21,12 +26,13 @@ class SparseMatrix {
   // retorna a quantidade de colunas
   unsigned int getColumns() const;
 
+  //verifica se a coordenada passada esta dentro da matriz
   bool verifyCoord(short unsigned i, short unsigned j);
 
   // inserir ou substituir elementos na matrix
   void insert(short unsigned i, short unsigned j, double value);
 
-  // retornar o valor do elemento passado
+  // retornar o valor do elemento
   double get(short unsigned i, short unsigned j);
 
   // printa toda a matrix
