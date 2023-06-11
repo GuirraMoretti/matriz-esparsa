@@ -44,15 +44,36 @@ SparseMatrix *readSparseMatrix(string archive) {
 }
 
 //faz a soma dos elementos de duas matrizes
-// SparseMatrix* sum(SparseMatrix* M1, SparseMatrix* M2);
+SparseMatrix* sum(SparseMatrix* M1, SparseMatrix* M2) {
+    if (M1->getLines() != M2->getLines() || M1->getColumns() != M2->getColumns()) {
+        cout << "As matrizes devem ter a mesma dimensão para serem somadas." << endl;
+        return nullptr;
+    }
+
+    SparseMatrix* result = new SparseMatrix(M1->getLines(), M1->getColumns());
+
+    for (unsigned int i = 1; i <= M1->getLines(); i++) {
+        for (unsigned int j = 1; j <= M1->getColumns(); j++) {
+            double value = M1->get(i, j) + M2->get(i, j);
+            result->insert(i, j, value);
+        }
+    }
+
+    return result;
+}
+
 
  //faz a multiplicação dos elementos de duas matrizes
-
-
   SparseMatrix * multiply(SparseMatrix* M1, SparseMatrix* M2){
-      short unsigned resultLines = M1->getLines();
-      short unsigned resultColumns = M2->getColumns();
 
+        if (M1->getColumns() != M2->getLines()) {
+            cout << "Matrizes nao podem multiplicar!" << endl;
+            return nullptr;
+        }
+
+      short unsigned resultLines = M1->getLines();
+      short unsigned resultColumns = M2->getColumns();   
+      
       SparseMatrix * result = new SparseMatrix(resultLines, resultColumns);
 
       for (short unsigned i = 1; i <= resultLines; i++) {
@@ -70,6 +91,7 @@ SparseMatrix *readSparseMatrix(string archive) {
   }
 
 SparseMatrix *createMatrix() {
+  system(clearCommand.c_str());
   int l, c;
   cout << "/-------------------------------------------------------------------"
           "----------------------------------\\"
@@ -80,7 +102,14 @@ SparseMatrix *createMatrix() {
   cin >> l;
   cout << "Colunas: ";
   cin >> c;
+  system(clearCommand.c_str());
   SparseMatrix *matrix = new SparseMatrix(l, c);
+  cout << "/-------------------------------------------------------------------"
+          "----------------------------------\\"
+       << endl;
+  cout << "\t\tMatriz " << matrizes.size()+1 << " criada com sucesso!" << endl;
+  cout << "\\------------------------------------------------------------------"
+            "-----------------------------------/" << endl;
   return matrix;
 }
 SparseMatrix *createMatrix(string name) {
@@ -109,84 +138,6 @@ void showAllMatrizes() {
       cout << endl;
     }
   }
-}
-
-SparseMatrix *menuPrincipal() {
-  char op;
-  string name;
-  
-  // while(op != 'q') {
-
-    cout << "\t\t\t\tMenu Principal" << endl;
-    cout << "Escolha uma opcao:" << endl;
-    cout << "(a) criar matriz vazia" << endl;
-    cout << "(c) criar matriz por meio do arquivo" << endl;
-    cout << "(l) lista matrizes existentes" << endl;
-    cout << "(m) multiplicar matrizes existentes" << endl;
-    cout << "(s) multiplicar matrizes existentes" << endl; // fazer
-    cout << "(q) sair do programa" << endl; //exit(0)
-    cout << ">";
-    
-    cin >> op;
-
-    SparseMatrix * matrizResultante = nullptr;
-
-    switch (op) {
-        // Criar vazia
-      case 'a':
-        matrizes.push_back(createMatrix());
-        return matrizes.back();
-        break;
-
-      
-        // Criar por meio de arquivo
-      case 'c':
-        cout << "/-----------------------------------------------------------------------------------------------------\\" << endl;
-        cout << "Digite o nome do arquivo .txt que deseja adicionar: ";
-        cin >> name;
-        matrizes.push_back(createMatrix(name));
-        cout << matrizes.size();
-        return matrizes.back();
-        break;
-
-    
-      case 'l':
-        showAllMatrizes();
-        menuPrincipal();
-        break;
-
-      case 'm':
-        int m1,m2;
-        cout << "Digite a posicao da primeira matriz que deseja multiplicar:";
-        cout << "> " << endl;
-        cin >> m1;
-        cout << "Digite a posicao da segunda matriz que deseja multiplicar:";
-        cout << "> " << endl;
-        cin >> m2;
-        
-        if (matrizes[m1 - 1]->getColumns() != matrizes[m2 -1]->getLines()) {
-            cout << "Matrizes nao podem multiplicar!" << endl;
-            return nullptr;
-        }
-
-        matrizResultante = multiply(matrizes[m1-1],matrizes[m2-2]);
-        matrizResultante->print();
-        menuPrincipal();
-        break;
-      
-      case 'q':
-        for(auto x: matrizes) delete x;
-        exit(0);
-        break;
-
-
-      default:
-        system(clearCommand.c_str());
-        cout << "Opcao invalida" << endl;
-        return menuPrincipal();
-    }
-  // }
-  return nullptr;
 }
 
 void menuMatrix(SparseMatrix *matrix) {
@@ -254,10 +205,99 @@ void menuMatrix(SparseMatrix *matrix) {
 }
 
 
-int main() {
-
+SparseMatrix *menuPrincipal() {
+  char op;
+  string name;
+  
   while(true) {
-    cout << "/-------------------------------------------------------------------"
+
+    cout << "\t\t\t\tMenu Principal" << endl;
+    cout << "Escolha uma opcao:" << endl;
+    cout << "(c) criar matriz vazia" << endl;
+    cout << "(a) criar matriz por meio do arquivo" << endl;
+    cout << "(l) lista matrizes existentes" << endl;
+    cout << "(e) editar matriz existentes" << endl;
+    cout << "(m) multiplicar matrizes existentes" << endl;
+    cout << "(s) somar matrizes existentes" << endl; // fazer
+    cout << "(q) sair do programa" << endl; //exit(0)
+    cout << ">";
+    int m1,m2;
+    cin >> op;
+
+    SparseMatrix * matrizResultante = nullptr;
+
+    switch (op) {
+        // Criar vazia
+      case 'c':
+        matrizes.push_back(createMatrix());
+        return matrizes.back();
+        break;
+
+      
+        // Criar por meio de arquivo
+      case 'a':
+        cout << "/-----------------------------------------------------------------------------------------------------\\" << endl;
+        cout << "Digite o nome do arquivo .txt que deseja adicionar: ";
+        cin >> name;
+        matrizes.push_back(createMatrix(name));
+        cout << matrizes.size();
+        return matrizes.back();
+        break;
+
+    
+      case 'l':
+        showAllMatrizes();
+        // menuPrincipal();
+        break;
+
+
+      case 'e':
+        cout << "Digite a posicao da matriz que deseja modificar:";
+        cout << "> " << endl;
+        cin >> m1;
+        menuMatrix(matrizes[m1-1]);
+        break;
+
+      case 'm':
+        cout << "Digite a posicao da primeira matriz que deseja multiplicar:";
+        cout << "> " << endl;
+        cin >> m1;
+        cout << "Digite a posicao da segunda matriz que deseja multiplicar:";
+        cout << "> " << endl;
+        cin >> m2;
+        matrizResultante = multiply(matrizes[m1 - 1], matrizes[m2 - 1]);
+        matrizResultante->print();
+        // menuPrincipal();
+        break;
+      case 's':
+        cout << "Digite a posicao da primeira matriz que deseja somar:";
+        cout << "> " << endl;
+        cin >> m1;
+        cout << "Digite a posicao da segunda matriz que deseja somar:";
+        cout << "> " << endl;
+        cin >> m2;
+        matrizResultante = sum(matrizes[m1 - 1], matrizes[m2 - 1]);
+        matrizResultante->print();
+        // menuPrincipal();
+        break;
+      case 'q':
+        for(auto x: matrizes) delete x;
+        exit(0);
+        break;
+
+
+      default:
+        system(clearCommand.c_str());
+        cout << "Opcao invalida" << endl;
+          // return menuPrincipal();
+    }
+  }
+  return nullptr;
+}
+
+int main() {
+  system(clearCommand.c_str());
+   cout << "/-------------------------------------------------------------------"
             "----------------------------------\\"
         << endl;
     cout << "\t\tOla Professor, seja bem vindo ao Projeto de Matriz Esparsa!"
@@ -270,12 +310,9 @@ int main() {
     cout << "/-------------------------------------------------------------------"
             "----------------------------------\\"
         << endl;
+  while(true) {
     // Chama menu para criar matriz
     SparseMatrix *matrix = menuPrincipal();
-    // Limpa o Terminal
-
-    // Chama o menu de modificao da matriz
-    menuMatrix(matrix);
   }
   
   for(auto x: matrizes) delete x;
