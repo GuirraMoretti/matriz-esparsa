@@ -153,14 +153,32 @@ void SparseMatrix::insert(short unsigned i, short unsigned j, double value)
         return;
     }
 
-    // Adicionar Nó
-    currentLine->right = (currentLine->right == headerLine)
-                             ? new Node(headerLine, headerColumn, i, j, value)
-                             : new Node(currentLine->right, headerColumn->bottom, i, j, value);
-
-    currentColumn->bottom = (currentColumn->bottom == headerColumn)
-                                ? new Node(headerLine->right, currentColumn->bottom, i, j, value)
-                                : new Node(currentLine->right, currentColumn->bottom, i, j, value);
+    //Adicionar Nó
+    if (currentLine->right == headerLine && currentColumn->bottom == headerColumn)
+    {
+        currentLine->right = new Node(headerLine,headerColumn,i,j,value);
+        headerColumn->bottom = currentLine->right;
+    }
+    else if (currentLine->right != headerLine && currentColumn->bottom == headerColumn)
+    {
+        Node *aux = currentLine->right;
+        currentLine->right = new Node(aux,headerColumn->bottom,i,j,value);
+        headerColumn->bottom = currentLine->right;   
+    }
+   else if (currentLine->right == headerLine && currentColumn->bottom != headerColumn)
+    {
+      Node *aux = currentColumn->bottom;
+      currentColumn->bottom = new Node(headerLine->right,aux,i,j,value);
+      headerLine->right = currentColumn->bottom;
+    }
+    else if (currentLine->right != headerLine && currentColumn->bottom != headerColumn)
+    {
+       Node *auxR = currentLine->right;
+       Node *auxB = currentColumn->bottom;
+       currentColumn->bottom = new Node(auxR,auxB,i,j,value);
+       currentLine->right = currentColumn->bottom;       
+    }
+    
 }
 
 // retornar o value do elemento passado
