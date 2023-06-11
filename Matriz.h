@@ -4,8 +4,8 @@
 
 class SparseMatrix {
  private:
-  short unsigned linhas;
-  short unsigned colunas;
+  short unsigned lines;
+  short unsigned columns;
   Node *m_head;
 
  public:
@@ -14,6 +14,12 @@ class SparseMatrix {
 
   // destrutor
   ~SparseMatrix();
+
+  // retorna quantidade de linhas
+  unsigned int getLines() const;
+
+  // retorna a quantidade de colunas
+  unsigned int getColumns() const;
 
   bool verifyCoord(short unsigned i, short unsigned j);
 

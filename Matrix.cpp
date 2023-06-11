@@ -1,14 +1,18 @@
 #include <iomanip>
 #include <iostream>
 #include <stdexcept>
+#include <math.h>
 
 #include "Matriz.h"
+
+
+
 
 using namespace std;
 
 // construtor
 SparseMatrix::SparseMatrix(short unsigned l, short unsigned c)
-    : linhas(l), colunas(c), m_head(new Node(nullptr, nullptr, 0, 0, 0))
+    : lines(l), columns(c), m_head(new Node(nullptr, nullptr, 0, 0, 0))
 {
     Node *ptr = m_head;
 
@@ -77,10 +81,19 @@ SparseMatrix::~SparseMatrix()
     delete m_head;
 }
 
+
+unsigned int SparseMatrix::getColumns() const {
+  return columns;
+}
+
+unsigned int SparseMatrix::getLines() const {
+  return lines;
+}
+
 // Funcao serve para ver se a coordenada passada esta contida na matriz
 bool SparseMatrix::verifyCoord(short unsigned i, short unsigned j)
 {
-    if (i > linhas || i < 0 || j > colunas || j < 0)
+    if (i > lines || i < 0 || j > columns || j < 0)
     {
         throw range_error("coordenada fora da matriz");
     }
@@ -97,12 +110,12 @@ void SparseMatrix::insert(short unsigned i, short unsigned j, double value)
     Node *currentColumn = m_head->right;
     Node *currentLine = m_head->bottom;
 
-    // Chegar no cabecalho da linha
+    // Chegar no cabeçalho da linha
     while (currentLine->line != i)
     {
         currentLine = currentLine->bottom;
     }
-    // Chegar no cabecalho da coluna
+    // Chegar no cabeçalho da coluna
     while (currentColumn->column != j)
     {
         currentColumn = currentColumn->right;
@@ -172,19 +185,34 @@ double SparseMatrix::get(short unsigned i, short unsigned j)
     }
     return aux->value;
 }
+
 // printa toda a matrix
 void SparseMatrix::print()
 {
     // Determinar a largura máxima dos valores na matriz
     int maxDigits = 0;
-    for (short unsigned i = 1; i <= linhas; i++)
+    int maxPrecision = 0;
+    for (short unsigned i = 1; i <= lines; i++)
     {
-        for (short unsigned j = 1; j <= colunas; j++)
+        for (short unsigned j = 1; j <= columns; j++)
         {
             double value = get(i, j);
             std::stringstream ss;
-            ss << value;
-            int numDigits = ss.str().length();
+            ss << std::fixed << value; // Definir o formato como decimal fixo
+            std::string strValue = ss.str();
+
+            // Verificar se o número tem parte decimal
+            size_t dotPos = strValue.find(".");
+            if (dotPos != std::string::npos)
+            {
+                int precision = strValue.length() - dotPos - 1;
+                if (precision > maxPrecision)
+                {
+                    maxPrecision = std::min(precision, 4); // Limitar a 4 casas decimais
+                }
+            }
+
+            int numDigits = strValue.length();
             if (numDigits > maxDigits)
             {
                 maxDigits = numDigits;
@@ -193,12 +221,15 @@ void SparseMatrix::print()
     }
 
     // Imprimir a matriz com valores alinhados
-    for (short unsigned i = 1; i <= linhas; i++)
+    for (short unsigned i = 1; i <= lines; i++)
     {
-        for (short unsigned j = 1; j <= colunas; j++)
+        for (short unsigned j = 1; j <= columns; j++)
         {
             double value = get(i, j);
-            std::cout << std::setw(maxDigits) << std::setfill(' ') << std::left << value << " ";
+            std::stringstream ss;
+            ss << std::fixed << std::setprecision(maxPrecision) << value;
+            std::string strValue = ss.str();
+            std::cout << std::setw(maxDigits + maxPrecision + 1) << std::setfill(' ') << std::left << strValue << " ";
         }
         std::cout << std::endl;
     }
