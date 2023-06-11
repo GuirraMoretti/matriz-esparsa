@@ -3,8 +3,8 @@
  Vitória ashiley Lopes Ferreira 535667
 **************************************************************************/
 
-#ifndef Matriz_h
-#define Matriz_h
+#ifndef Matrix_h
+#define Matrix_h
 #include "Node.h"
 
 class SparseMatrix {

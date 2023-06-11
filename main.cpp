@@ -192,8 +192,9 @@ void menuMatrix(SparseMatrix *matrix) {
           cout << "\\-------------------------------------------------------------------"
           "----------------------------------/"
        << endl;
+       matrix->set(l, c, value);
         } else
-          cerr << "Erro desconhecido";
+          cerr << "Erro desconhecido" << endl;
         break;
 
       case 's':
