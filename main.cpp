@@ -138,8 +138,9 @@ SparseMatrix* createMatrix(string name) {
   SparseMatrix* matrix = readSparseMatrix(filePath.string());
   return matrix;
 }
+
 // Exibe todas as matrizes existentes no <vector>
-void showAllMatrizes() {
+void showAllMatrices() {
   system(clearCommand.c_str());
   if (matrizes.empty()) {
     cout << "Nenhuma matriz foi criada." << endl;
@@ -289,7 +290,7 @@ SparseMatrix* menuPrincipal() {
         break;
         // Exibe todas matrizes existentes
       case 'l':
-        showAllMatrizes();
+        showAllMatrices();
         break;
         // Abre o menu de modificao da matriz
       case 'e':
@@ -332,9 +333,10 @@ SparseMatrix* menuPrincipal() {
         cout << "Digite a posicao da primeira matriz que deseja somar:" << endl;
         cout << "> ";
         cin >> m1;
-        cout << "Digite a posicao da segunda matriz que deseja somar:";
-        cout << "> " << endl;
+        cout << "Digite a posicao da segunda matriz que deseja somar:" << endl;
+        cout << "> ";
         cin >> m2;
+        system(clearCommand.c_str());
         if (m1 <= 0 || m1 > matrizes.size() || m2 <= 0 ||
             m2 > matrizes.size()) {
           system(clearCommand.c_str());

@@ -107,7 +107,7 @@ void SparseMatrix::insert(short unsigned i, short unsigned j, double value) {
     currentLine->right = currentColumn->bottom;
     return;
   }
-  // Sai do cabeçalho e procura o node anterior
+  // Sai do cabeçalho e procura o node anterior da posicao que ele quer
   while (currentLine->right->column < j && currentLine->right->column != 0) {
     currentLine = currentLine->right;
   }
