@@ -59,9 +59,6 @@ SparseMatrix::~SparseMatrix() {
     actualLine = actualLine->bottom;
 
     delete del;
-
-    // del = matrizes[m1-1];
-    // delete del;
   }
 
   delete m_head;

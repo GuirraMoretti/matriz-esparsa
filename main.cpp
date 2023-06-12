@@ -63,7 +63,7 @@ SparseMatrix* sum(SparseMatrix* M1, SparseMatrix* M2) {
   // Soma dos elementos da matriz
   for (unsigned int i = 1; i <= M1->getLines(); i++) {
     for (unsigned int j = 1; j <= M1->getColumns(); j++) {
-      double value = M1->get(i, j) + M2->get(i, j);
+      double value = M1->get(i, j) + M2->get(i, j);  // faz a soma dos valores
       result->insert(i, j, value);
     }
   }
@@ -89,7 +89,8 @@ SparseMatrix* multiply(SparseMatrix* M1, SparseMatrix* M2) {
     for (short unsigned j = 1; j <= resultColumns; j++) {
       double value = 0.0;
       for (short unsigned k = 1; k <= M1->getColumns(); k++) {
-        value += M1->get(i, k) * M2->get(k, j);
+        value +=
+            M1->get(i, k) * M2->get(k, j);  // faz a multiplicação dos valores
       }
 
       result->insert(i, j, value);
@@ -110,6 +111,7 @@ SparseMatrix* createMatrix() {
   cout << "Colunas: ";
   cin >> c;
   system(clearCommand.c_str());
+
   SparseMatrix* matrix = new SparseMatrix(l, c);
   cout << "/-------------------------------------------------------------------"
           "----------------------------------\\"
@@ -175,7 +177,6 @@ void menuMatrix(SparseMatrix* matrix, const int pos) {
     } else {
       firstTime = false;
     }
-    
 
     switch (op) {
       case 'p':
@@ -344,12 +345,14 @@ SparseMatrix* menuPrincipal() {
         cout << "Resultado da soma das matrizes: " << endl;
         matrizResultante->print();
         break;
+        // opção para sair do programa
       case 'q':
         // Deleta o <vector> matrizes
         for (auto x : matrizes)
           delete x;
         exit(0);
         break;
+        // volta para o menu
       default:
         system(clearCommand.c_str());
         cout << "Opcao invalida" << endl;
