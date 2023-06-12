@@ -53,52 +53,18 @@ SparseMatrix::~SparseMatrix() {
 
       delete del;
     }
-    
-    Node * del = actualLine;
-    
+
+    Node* del = actualLine;
+
     actualLine = actualLine->bottom;
 
     delete del;
-
 
     // del = matrizes[m1-1];
     // delete del;
   }
 
   delete m_head;
-  // // cria um ponteiro para a linha do nó
-  // Node* ActualLine = m_head->bottom;
-
-  // // apaga as linhas enquanto forem diferentes do nó cabeça
-  // while (ActualLine != m_head) {
-  //   // cria um ponteiro para a coluna da linha atual
-  //   Node* ActualColumn = m_head->right;
-
-  //   // apaga as colunas da linha atual
-  //   while (ActualColumn != m_head) {
-  //     Node* nextcolumn = ActualColumn->right;
-
-  //     // deleta as colunas
-  //     delete ActualColumn;
-
-  //     ActualColumn = nextcolumn;
-  //   }
-
-  //   Node* nextline = ActualLine->bottom;
-  //   delete ActualLine;
-  //   ActualLine = nextline;
-  // }
-
-  // Node* ColumnRest = m_head->right;
-
-  // while (ColumnRest != m_head) {
-  //   Node* next = ColumnRest->right;
-
-  //   // deleta as colunas que restam a direita do nó cabeça
-  //   delete ColumnRest;
-
-  //   ColumnRest = next;
-  // }
 }
 
 unsigned int SparseMatrix::getColumns() const {
