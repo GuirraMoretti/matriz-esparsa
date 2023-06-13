@@ -112,6 +112,11 @@ SparseMatrix* createMatrix() {
   cin >> c;
   system(clearCommand.c_str());
 
+  if (l <= 0 || c <= 0 ){
+    cerr << "Nao e possivel inserir a matriz com coordenadas negativas!" << endl;
+    menuPrincipal();
+  } 
+
   SparseMatrix* matrix = new SparseMatrix(l, c);
   cout << "/-------------------------------------------------------------------"
           "----------------------------------\\"
